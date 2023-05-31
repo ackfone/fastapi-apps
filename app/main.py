@@ -25,4 +25,4 @@ app.include_router(like.router)
 #@Home
 @app.get("/")
 async def root():
-        return "Fast API Testing"
+        return "Fast API Testin"
