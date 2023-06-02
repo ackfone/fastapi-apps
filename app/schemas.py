@@ -5,32 +5,33 @@ from typing import Optional
 #>>>>>>>>>>>>>NOTTE<<<<<<<<<<<<<<<<<<
 #use schemas to get the kind of information we want from the user
 
-class Post(BaseModel):
+class Base(BaseModel):
     title:str
     content:str
     published:bool = True
     
-class CreatePost(Post):
+class CreatePost(Base):
     pass
 
-class UpdatePost(Post):
-    Post.title : str
+class UpdatePost(Base):
+    Base.title : str
 
 class PostLike(BaseModel):
-        Post: Post
+        post: Base
         likes: int
 
         class Config:
             orm_mode = True
 
 class PostResponse(BaseModel):
+    # likes:str
+    # Post:dict
     # title:str
     # content:str
     # published:bool
     # user_id:int
     # username:str
     # id:str
-    # msg: str = "post created sucessfully"
     # created:datetime
     class Config:
         orm_mode = True

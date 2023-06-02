@@ -12,7 +12,7 @@ router = APIRouter(
 #@get all data
 #, response_model=List[schemas.PostResponse]
 @router.get('/posts')
-def getpost(db:Session = Depends(get_db),
+def getpost(db:Session =  Depends(get_db),
             currentUser:int = Depends(oauth2.validate_current_user),
             limit:int = 10, search:Optional[str]=""):
     try:
@@ -24,9 +24,8 @@ def getpost(db:Session = Depends(get_db),
     except Exception as e:
         print(e)
 
-
 # creating or addig post
-@router.post('/posts', status_code=status.HTTP_201_CREATED, response_model=schemas.PostResponse)
+@router.post('/posts', status_code=status.HTTP_201_CREATED)
 def create_post(postdata:schemas.CreatePost, db:Session = Depends(get_db), 
                 currentUser:int = Depends(oauth2.validate_current_user)):
     try:
@@ -34,8 +33,8 @@ def create_post(postdata:schemas.CreatePost, db:Session = Depends(get_db),
         result = models.Post(user_id=currentUser.id, username=currentUser.username, **postdata.dict())
         db.add(result)
         db.commit()
-        db.refresh(result)
-        return result
+
+        return {'msg': f"post created sucessfully by {result.username}"}
     except Exception as e:
         print(e)
 
@@ -66,6 +65,7 @@ def delete_post(id: int, db:Session = Depends(get_db),
     db.commit()
     return {"msg": "post deleted sucessfully"}
 
+
 #updating enitre post
 @router.put("/posts/{id}")
 def update_single_post(id: int, post:schemas.CreatePost, db:Session = Depends(get_db), 
@@ -81,4 +81,3 @@ def update_single_post(id: int, post:schemas.CreatePost, db:Session = Depends(ge
     result.update(post.dict())
     db.commit()
     return {"msg": "sucessfully updated"}
-    

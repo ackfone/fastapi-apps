@@ -17,6 +17,7 @@ class User(Base):
    email = Column(String, unique=True, nullable=False)
    password = Column (String, nullable=False)
    username = Column(String, unique=True, nullable=False)
+   phone_number = Column(String, unique=True, nullable=True)
    created = Column(TIMESTAMP(timezone=True), nullable=False, server_default=text('now()'))
 
 class Like(Base):
