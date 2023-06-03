@@ -25,4 +25,4 @@ app.include_router(like.router)
 #@Home
 @app.get("/")
 def root():
-        return "Fast API Testing"
+        return "Deploying to heroku..."
